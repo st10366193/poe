@@ -1,9 +1,7 @@
 ﻿// Import necessary namespaces
 using System;
 using System.Collections;
-using System.Drawing; // Import for logo
-using System.IO;
-using System.Media; // Import for audio playback
+
 
 // Define the namespace for the Chatbot class
 namespace poe
@@ -32,51 +30,20 @@ namespace poe
         // Define the constructor for the Chatbot class
         public Chatbot()
         {
+           
+
             // Initialize the replies ArrayList
             replies = new ArrayList();
 
             // Display a message to the user
             Console.WriteLine("Mini AI > ");
-            Console.WriteLine("Enter your Name");
+            Console.WriteLine("Enter your Name"); 
             Console.WriteLine("You > ");
 
             // Get the username from the user
             username = Console.ReadLine();
 
-            // Define the path to the ASCII art image
-            string path = AppDomain.CurrentDomain.BaseDirectory;
-            string new_path = path.Replace("bin\\Debug\\", "");
-            string full_path = Path.Combine(new_path, "ascii-text-art.jpg");
-
-            // Load the ASCII art image
-            try
-            {
-                Bitmap logo = new Bitmap(full_path);
-                logo = new Bitmap(logo, new Size(50, 25));
-
-                // Display the ASCII art image
-                for (int height = 0; height < logo.Height; height++)
-                {
-                    for (int width = 0; width < logo.Width; width++)
-                    {
-                        // Get the color of the current pixel
-                        Color pixel = logo.GetPixel(width, height);
-                        int color = (pixel.R + pixel.G + pixel.B) / 3;
-
-                        // Determine the ASCII character to display based on the color
-                        char ascii_design = color > 200 ? '.' :
-                                            color > 150 ? '*' :
-                                            color > 100 ? '0' :
-                                            color > 50 ? '#' : '@';
-                        Console.Write(ascii_design);
-                    }
-                    Console.WriteLine();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error loading image: " + ex.Message);
-            }
+           
 
             // Store replies in the ArrayList
             StoreReplies();
@@ -85,11 +52,13 @@ namespace poe
             do
             {
                 // Display a message to the user
-                Console.WriteLine("Mini AI >");
-                Console.WriteLine("Good day " + username + ", how can I help you today?");
-                Console.WriteLine(username + " > ");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Mini AI > ");
+                Console.WriteLine(" Good day " + username + ", how can I help you today?");
 
-                // Get the user's input
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write(username + " > ");
+                                // Get the user's input
                 userAsk = Console.ReadLine();
 
                 // Answer the user's question
@@ -108,12 +77,13 @@ namespace poe
             replies.Add(new Reply("how", "I am good and yourself?"));
             replies.Add(new Reply("name", "My Name is mini AI"));
             replies.Add(new Reply("purpose", "I am here to help you find answers to your questions"));
-            replies.Add(new Reply("ask", "About anything"));
+            replies.Add(new Reply("ask", "About cyber security"));
         }
 
         // Define a method to answer the user's question
         private void Answer(string asked)
         {
+            
             // Split the user's input into keywords
             string[] keywords = asked.ToLower().Split(new[] { ' ', ',', ';', '.' }, StringSplitOptions.RemoveEmptyEntries);
             bool foundReply = false;
@@ -127,37 +97,32 @@ namespace poe
                     {
                         // Display the reply to the user
                         Console.WriteLine("Mini AI: " + reply.Answer);
-                        PlayResponseAudio(); // method call to play audio response
+                        
                         foundReply = true;
                     }
+                   
                 }
             }
 
             // If no replies were found, display a default message
             if (!foundReply)
             {
+
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Mini AI: Sorry, I don't understand your question.");
-                PlayResponseAudio(); // Play audio for unrecognized input
+                
+
             }
+            else
+            {
+          
+            }
+
+
         }
 
-        // Define a method to play audio response
-        public void PlayResponseAudio()
-        {
-            try
-            {
-                // Specify the path to the audio file
-                string audioPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "greeting.wav");
-                using (SoundPlayer player = new SoundPlayer(audioPath))
-                {
-                    player.PlaySync(); // Play the audio file 
-                }
-            }
-            catch (Exception error)
-            {
-                Console.WriteLine("Error playing audio: " + error.Message);
-            } // end of catch
-        }
+        
+        
     }
 
     
